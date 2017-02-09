@@ -83,13 +83,13 @@ my @resolutions = (
     "1080p   ",  # 64:27    4:3        1920x1080p @ 59.94/60 Hz
     "1080p100",  # 64:27    4:3        1920x1080p @ 100 Hz
     "1080p120",  # 64:27    4:3        1920x1080p @ 119.88/120 Hz
-    "720p24  ",  # 64:27   64:63        1680x720p @ 23.98/24 Hz
-    "720p25  ",  # 64:27   64:63        1680x720p @ 25Hz
-    "720p30  ",  # 64:27   64:63        1680x720p @ 29.97/30 Hz
-    "720p50  ",  # 64:27   64:63        1680x720p @ 50 Hz
-    "720p    ",  # 64:27   64:63        1680x720p @ 59.94/60 Hz
-    "720p100 ",  # 64:27   64:63        1680x720p @ 100 Hz
-    "720p120 ",  # 64:27   64:63        1680x720p @ 119.88/120 Hz
+    "720p24  ",  # 64:27    64:63       1680x720p @ 23.98/24 Hz
+    "720p25  ",  # 64:27    64:63       1680x720p @ 25Hz
+    "720p30  ",  # 64:27    64:63       1680x720p @ 29.97/30 Hz
+    "720p50  ",  # 64:27    64:63       1680x720p @ 50 Hz
+    "720p    ",  # 64:27    64:63       1680x720p @ 59.94/60 Hz
+    "720p100 ",  # 64:27    64:63       1680x720p @ 100 Hz
+    "720p120 ",  # 64:27    64:63       1680x720p @ 119.88/120 Hz
     "1080p24 ",  # 64:27    1:1        2560x1080p @ 23.98/24 Hz
     "1080p25 ",  # 64:27    1:1        2560x1080p @ 25Hz
     "1080p30 ",  # 64:27    1:1        2560x1080p @ 29.97/30 Hz
@@ -102,17 +102,38 @@ my @resolutions = (
     "2160p30 ",  # 16:9     1:1        3840x2160p @ 29.97/30 Hz
     "2160p50 ",  # 16:9     1:1        3840x2160p @ 50 Hz
     "2160p   ",  # 16:9     1:1        3840x2160p @ 59.94/60 Hz
-    "2160p24 ",  # 256:135   1:1        4096x2160p @ 23.98/24 Hz
-    "2160p25 ",  # 256:135   1:1        4096x2160p @ 25Hz
-    "2160p30 ",  # 256:135   1:1        4096x2160p @ 29.97/30 Hz
-    "2160p50 ",  # 256:135   1:1        4096x2160p @ 50 Hz
-    "2160p   ",  # 256:135   1:1        4096x2160p @ 59.94/60 Hz
+    "2160p24 ",  # 256:135  1:1        4096x2160p @ 23.98/24 Hz
+    "2160p25 ",  # 256:135  1:1        4096x2160p @ 25Hz
+    "2160p30 ",  # 256:135  1:1        4096x2160p @ 29.97/30 Hz
+    "2160p50 ",  # 256:135  1:1        4096x2160p @ 50 Hz
+    "2160p   ",  # 256:135  1:1        4096x2160p @ 59.94/60 Hz
     "2160p24 ",  # 64:27    4:3        3840x2160p @ 23.98/24 Hz
     "2160p25 ",  # 64:27    4:3        3840x2160p @ 25Hz
     "2160p30 ",  # 64:27    4:3        3840x2160p @ 29.97/30 Hz
     "2160p50 ",  # 64:27    4:3        3840x2160p @ 50 Hz
-    "2160p   ",  # 64:27    4:3        3840x2160p @ 59.94/60 Hz
-);
+    "2160p   "   # 64:27    4:3        3840x2160p @ 59.94/60 Hz
+    );
+
+# Short Audio Descriptor Audio Format
+my @audioFormat = (
+    "0???",   #  0 = RESERVED
+    "LPCM",   #  1 = Linear Pulse Code Modulation (LPCM)
+    "AC-3",   #  2
+    "MPEG1",  #  3 = MPEG1 (Layers 1 and 2)
+    "MP3",    #  4 = MP3
+    "MPEG2",  #  5
+    "AAC",    #  6
+    "DTS",    #  7
+    "ATRAC",  #  8
+    "SACD",   #  9 = One-bit audio aka SACD
+    "DD+",    # 10
+    "DTS-HD", # 11
+    "TrueHD", # 12 = MLP/Dolby TrueHD
+    "DST",    # 13 = DST Audio
+    "WMA",    # 14 = Microsoft WMA Pro
+    "15???"   # 15 = RESERVED
+    );
+
 
 print "EDID Parser V1.0\n";
 my $fname = $ARGV[0];
@@ -222,25 +243,6 @@ printf("   underscan\n") if ($einfo & 0x80);
 printf("   basic audio\n") if ($einfo & 0x40);
 printf("   YCbCr 4:4:4\n") if ($einfo & 0x20);
 printf("   YCbCr 4:2:2\n") if ($einfo & 0x10);
-
-my @audioFormat = (           # Short Audio Descriptor Audio Format
-                    "0???",    #  0 = RESERVED
-                    "LPCM",   #  1 = Linear Pulse Code Modulation (LPCM)
-                    "AC-3",   #  2
-                    "MPEG1",  #  3 = MPEG1 (Layers 1 and 2)
-                    "MP3",    #  4 = MP3
-                    "MPEG2",  #  5
-                    "AAC",    #  6
-                    "DTS",    #  7
-                    "ATRAC",  #  8
-                    "SACD",   #  9 = One-bit audio aka SACD
-                    "DD+",    # 10
-                    "DTS-HD", # 11
-                    "TrueHD", # 12 = MLP/Dolby TrueHD
-                    "DST",    # 13 = DST Audio
-                    "WMA",     # 14 = Microsoft WMA Pro
-                    "15???"   # 15 = RESERVED
-    );
 
 for (my $i=0; $i<$eoffset-4;) {
     my $size = $cbuf[$i] & 0x1f;
