@@ -135,7 +135,23 @@ my @audioFormat = (
     );
 
 
-print "EDID Parser V1.0\n";
+# See https://en.wikipedia.org/wiki/Color_temperature#Approximation
+sub colorTemp {
+    my $xe = 0.3366;
+    my $ye = 0.1735;
+    my $A0 = -949.86315;
+    my $A1 = 6253.80338;
+    my $t1 = 0.92159;
+    my $A2 = 28.70599;
+    my $t2 = 0.20039;
+    my $A3 = 0.00004;
+    my $t3 = 0.07125;
+
+    my $n = ($_[0] - $xe) / ($_[1] - $ye);
+    return $A0 + $A1 * exp(-$n/$t1) + $A2 * exp(-$n/$t2) + $A3 * exp(-$n/$t3);
+}
+
+print "EDID Parser V1.1\n";
 my $fname = $ARGV[0];
 open(FILE, "<$fname") || die ("can't open $fname");
 binmode(FILE);
@@ -214,7 +230,10 @@ my $bluey = (($bw >> 4) & 0x3) | ($by << 2);
 printf("   blue:  (%f, %f)\n", $bluex / 1024.0, $bluey / 1024.0);
 my $whitex = (($bwl >> 2) & 0x3) | ($wx << 2);
 my $whitey = ($bwl & 0x3) | ($wy << 2);
-printf("   white: (%f, %f)\n", $whitex / 1024.0, $whitey / 1024.0);
+my $x = $whitex / 1024.0;
+my $y = $whitey / 1024.0;
+printf("   white: (%f, %f)  Color Temperature = %.0fK\n",
+       $x, $y, colorTemp($x, $y));
 
 printf("Extension Flag: 0x%2.2X\n", $extension);
 printf("Checksum: 0x%2X", $csum);
