@@ -211,8 +211,8 @@ print("   Default GTF\n") if ($feature & 0x1);
 print("   Preferred Timing Mode\n") if ($feature & 0x2);
 print("   sRGB Default Color Space\n") if ($feature & 0x4);
 print("   Monochrome Display\n") if (($feature & 0x18) == 0);
-print("   RGB Color Display") if (($feature & 0x18) == 0x8);
-print("   non-RGB Multi-Color Display") if (($feature & 0x18) == 0x10);
+print("   RGB Color Display\n") if (($feature & 0x18) == 0x8);
+print("   non-RGB Multi-Color Display\n") if (($feature & 0x18) == 0x10);
 print("   Undefined Display\n") if (($feature & 0x18) == 0x18);
 print("   Active Off Display\n") if ($feature & 0x20);
 print("   Display Suspend\n") if ($feature & 0x40);
@@ -320,7 +320,7 @@ for (my $i=0; $i<$eoffset-4;) {
     } else {                    # reserved
         printf("reserved\n");
         for ($j=0; $j<$size; $j++) {
-            printf("0x%2.2X ", $cbuf[$i + $j + 1]);
+            printf("   0x%2.2X ", $cbuf[$i + $j + 1]);
         }
         printf("\n");
     }
